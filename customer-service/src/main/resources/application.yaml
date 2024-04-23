@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: customer-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dbcustomer
+    username: developer
+    password: supersecretpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
