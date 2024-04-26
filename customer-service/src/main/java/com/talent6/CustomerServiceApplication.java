@@ -6,8 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableDiscoveryClient // untuk registrasi ke service discovery
 //@OpenAPIDefinition(info = @Info(
 //		title = "TALENT CUSTOMER MICRO SERVICE",
 //		description = "customer modul microservice",

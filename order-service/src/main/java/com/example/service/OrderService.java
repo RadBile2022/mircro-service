@@ -7,6 +7,8 @@ import com.example.dto.Product;
 import com.example.entity.Order;
 import com.example.entity.OrderLine;
 import com.example.repository.OrderRepository;
+import com.example.webclient.CustomerClient;
+import com.example.webclient.ProductClient;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,13 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+//    @Autowired
+//    private RestTemplate restTemplate;
     @Autowired
-    private RestTemplate restTemplate;
+    private CustomerClient customerClient;
 
+    @Autowired
+    private ProductClient productClient;
     public Order save(Order order) {
         log.info("save order : {}", order);
 
@@ -47,12 +53,12 @@ public class OrderService {
                 .id(order.getId())
                 .orderNumber(order.getOrderNumber())
                 .orderDate(order.getOrderDate())
-                .customer(findCustomerById(order.getId()))
+                .customer(customerClient.findById(order.getId()))
                 .orderLineResponses(new ArrayList<OrderLineResponse>())
                 .build();
 
         for(OrderLine orderLine: order.getOrderLines()){
-            Product product = findProductById(orderLine.getProductId());
+            Product product = productClient.findById(orderLine.getProductId());
             response.getOrderLineResponses().add(new OrderLineResponse(orderLine.getId(), product, orderLine.getQuantity(),
                     orderLine.getPrice()));
         }
@@ -71,12 +77,12 @@ public class OrderService {
                 .id(orderByNumber.getId())
                 .orderNumber(orderByNumber.getOrderNumber())
                 .orderDate(orderByNumber.getOrderDate())
-                .customer(findCustomerById(orderByNumber.getId()))
+                .customer(customerClient.findById(orderByNumber.getId()))
                 .orderLineResponses(new ArrayList<OrderLineResponse>())
                 .build();
 
         for(OrderLine orderLine: orderByNumber.getOrderLines()){
-            Product product = findProductById(orderLine.getProductId());
+            Product product = productClient.findById(orderLine.getProductId());
             response.getOrderLineResponses().add(new OrderLineResponse(orderLine.getId(), product, orderLine.getQuantity(),
                     orderLine.getPrice()));
         }
@@ -86,11 +92,11 @@ public class OrderService {
     }
 
 
-    public Customer findCustomerById(Long id) {
-        return restTemplate.getForObject("http://localhost:8081/api/customer/" + id, Customer.class);
-    }
+//    public Customer findCustomerById(Long id) {
+//        return restTemplate.getForObject("http://CUSTOMER-SERVICE/api/customer/" + id, Customer.class);
+//    }
 
-    public Product findProductById(Long id){
-        return restTemplate.getForObject("http://localhost:8082/api/product/" + id, Product.class);
-    }
+//    public Product findProductById(Long id){
+//        return restTemplate.getForObject("http://PRODUCT-SERVICE/api/product/" + id, Product.class);
+//    }
 }

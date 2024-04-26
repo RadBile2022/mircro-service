@@ -5,11 +5,22 @@ import com.talent6.dto.SearchEmailRequest;
 import com.talent6.entity.Customer;
 import com.talent6.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RefreshScope
 @RequestMapping("/api/customer")
 public class CustomerController {
+
+    @Value("${spring.application.version}")
+    private String versionString;
+
+    @GetMapping("/version")
+    public String getVersion(){
+        return versionString;
+    }
     @Autowired
     private CustomerService customerService;
 

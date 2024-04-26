@@ -1,0 +1,37 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dbproduct
+    username: developer
+    password: supersecretpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+#    serviceUrl:
+#      defaultZone: http://${eurka.instance.hostname}:${server.port}/eureka/
+
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka
